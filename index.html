@@ -39,13 +39,17 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
-        }
+         }
         
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #fff;
+       .logo {
+            display: inline-block; /* 要素をブロック化してサイズ調整 */
             text-decoration: none;
+        }
+ 
+       .logo img {
+            max-width: 200px;  /* 必要な幅に合わせて調整 */
+            height: auto;      /* 画像比率を維持 */
+            display: block;    /* 余計な隙間を除去するため */
         }
         
         .nav-links {
