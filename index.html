@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="1024x1024" href="magicalclayimage/icon1024.png">
-    <title>MagicalClay - HandTracking による革新的な 3D モデリング</title>
+    <title>MagicalClay - XRによる革新的な 3D モデリング</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/6.30.0/babylon.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs-loaders/6.30.0/babylonjs.loaders.min.js"></script>
     <style>
@@ -76,7 +76,7 @@
             justify-content: center;
             align-items: center;
             color: white;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1920/1080') center/cover no-repeat;
+            background: linear-gradient(rgba(128, 0, 128, 0.6), rgba(128, 0, 128, 0.6)), url('/magicalclayimage/hero-bg.jpg') center/cover no-repeat;
             text-align: center;
             padding: 0 2rem;
         }
@@ -539,7 +539,9 @@
     <!-- ナビゲーション -->
     <nav>
         <div class="nav-container">
-            <a href="#" class="logo">MagicalClay</a>
+            <a href="#" class="logo">
+                <img src="magicalclayimage/logo.png" alt="MagicalClayロゴ">
+            </a>
             <ul class="nav-links">
                 <li><a href="#features">機能</a></li>
                 <li><a href="#platforms">対応プラットフォーム</a></li>
@@ -553,6 +555,8 @@
     <!-- ヒーロー -->
     <section class="hero">
         <h1>MagicalClay</h1>
+        <div class="gallery-item">
+        </div>
         <p>HandTracking技術を駆使した革新的な3Dモデリングアプリ。あなたの手がデジタルアートを生み出す。</p>
         <a href="#demo" class="cta-button">デモを体験する</a>
     </section>
@@ -573,7 +577,7 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <h3>直感的なハンドトラッキング</h3>
-                    <p>高精度なハンドトラッキング技術により、実際に粘土を扱うような自然な操作感を実現。特別なコントローラーは必要ありません。</p>
+                    <p>高精度なハンドトラッキング技術により、実際に粘土を扱うような自然な操作感を実現。特別なコントローラーは必要ありません。誰でも造形制作を楽しむことができます。</p>
                 </div>
                 <div class="feature-card">
                     <h3>リアルタイム変形</h3>
@@ -611,7 +615,7 @@
                         <img src="/api/placeholder/120/120" alt="Meta Quest" width="60" height="60">
                     </div>
                     <h3>Meta Quest</h3>
-                    <p>Meta Quest 2/3/Pro対応。高精度なハンドトラッキングを活用した没入型体験。</p>
+                    <p>Meta Quest 2/3対応。高精度なハンドトラッキングを活用した没入型体験。</p>
                 </div>
                 <div class="platform-card">
                     <div class="platform-logo">
@@ -685,15 +689,15 @@
                 <div class="team-card">
                     <img src="/api/placeholder/400/400" alt="チームメンバー1" class="team-img">
                     <div class="team-info">
-                        <h3>鈴木 太郎</h3>
-                        <p class="team-role">プロジェクトリーダー・技術ディレクター</p>
+                        <h3>AI Yonezawa</h3>
+                        <p class="team-role">プロジェクトリーダー</p>
                         <p>XR技術のスペシャリスト。前職では大手ゲーム会社でVRゲームの開発に従事。</p>
                     </div>
                 </div>
                 <div class="team-card">
                     <img src="/api/placeholder/400/400" alt="チームメンバー2" class="team-img">
                     <div class="team-info">
-                        <h3>佐藤 花子</h3>
+                        <h3>Wakana Ishihara</h3>
                         <p class="team-role">UXデザイナー</p>
                         <p>人間工学を専門とし、直感的に使えるXRインターフェースの設計を担当。</p>
                     </div>
@@ -701,17 +705,17 @@
                 <div class="team-card">
                     <img src="/api/placeholder/400/400" alt="チームメンバー3" class="team-img">
                     <div class="team-info">
-                        <h3>高橋 健太</h3>
-                        <p class="team-role">シニアエンジニア</p>
-                        <p>コンピュータビジョンの専門家。ハンドトラッキングアルゴリズムの開発を担当。</p>
+                        <h3>Hironori Kiyoshima</h3>
+                        <p class="team-role">プロダクトマネージャー</p>
+                        <p>人体造形と彫刻の専門家。彫刻家としてのプロの視点でアプリケーションを監修。</p>
                     </div>
                 </div>
                 <div class="team-card">
                     <img src="/api/placeholder/400/400" alt="チームメンバー4" class="team-img">
                     <div class="team-info">
-                        <h3>伊藤 美咲</h3>
-                        <p class="team-role">3Dアーティスト</p>
-                        <p>デジタルスカルプティングのプロフェッショナル。サンプルモデルとチュートリアルを担当。</p>
+                        <h3>Asahi Sakamoto</h3>
+                        <p class="team-role">XRエンジニア</p>
+                        <p>空間コンピューティングのスペシャリスト。プログラミングおよびXRにおけるUXなどアプリケーション全体を制作</p>
                     </div>
                 </div>
             </div>
@@ -727,21 +731,28 @@
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-date">2023年7月</div>
+                        <div class="timeline-date">2024年7月</div>
                         <h3>Meta PresencePlatformHackathon プロジェクト始動</h3>
                         <p>Meta社のPresencePaltformHackathonにて作成作品としてSoda3Dartチームとして「誰でも簡単に3Dモデリングを楽しめる」というビジョンのもと、プロジェクトがスタート。ハンドトラッキング技術を活用したアプローチを決定。</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-date">2024年7月</div>
+                        <div class="timeline-date">7月</div>
                         <h3>Meta PresencePlatformHackathon プロトタイプ完成</h3>
                         <p>スカルプトとエクスポート機能など基本的なモデリング機能を備えた初期プロトタイプが完成。ハッカソンの受賞は逃すものの審査員や他参加者より高い評価を得る。</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-date">2024年11月</div>
+                        <div class="timeline-date">8月</div>
+                        <h3>TKU テレビ熊本にて取り組みが取り上げられる</h3>
+                        <p>TKU番組内でハッカソンの取り組みとアプリケーションのデモンストレーションが取り上げられる。 </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">11月</div>
                         <h3>ストアでのリリースを目標とした機能再開発を開始</h3>
                         <p>ハッカソンイベントで作成したアプリケーションをリファクタリング、機能の再定義を行う。ペイントモードの実装</p>
                     </div>
@@ -749,8 +760,8 @@
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <img src="magicalclayimage/Screenshot 2025-04-10 005447.png" alt="プロトタイプの画像" style="width:100%; max-width:400px; display:block; margin-bottom:1rem;">
-                        <div class="timeline-date">2024年12月</div>
-                        <h3>三人称視点機能の実装</h3>
+                        <div class="timeline-date">12月</div>
+                        <h3>三人称視点機能の実装</h3> 
                         <p>iPad,iPhoneを用いたスペクテータービューモードの実装</p>
                     </div>
                 </div>
