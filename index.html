@@ -7,6 +7,8 @@
     <title>MagicalClay - XRによる革新的な 3D モデリング</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/6.30.0/babylon.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs-loaders/6.30.0/babylonjs.loaders.min.js"></script>
+    <!-- Three.js ライブラリの追加 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         /* グローバル設定 */
         * {
@@ -15,13 +17,13 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background-color: #f5f5f5;
             color: #333;
             line-height: 1.6;
         }
-        
+
         /* ナビゲーション */
         nav {
             background-color: rgba(0, 0, 0, 0.8);
@@ -31,7 +33,7 @@
             top: 0;
             z-index: 1000;
         }
-        
+
         .nav-container {
             display: flex;
             justify-content: space-between;
@@ -40,38 +42,38 @@
             margin: 0 auto;
             padding: 0 2rem;
          }
-        
+
        .logo {
             display: inline-block; /* 要素をブロック化してサイズ調整 */
             text-decoration: none;
         }
- 
+
        .logo img {
             max-width: 200px;  /* 必要な幅に合わせて調整 */
             height: auto;      /* 画像比率を維持 */
             display: block;    /* 余計な隙間を除去するため */
         }
-        
+
         .nav-links {
             display: flex;
             list-style: none;
         }
-        
+
         .nav-links li {
             margin-left: 2rem;
         }
-        
+
         .nav-links a {
             color: #fff;
             text-decoration: none;
             transition: color 0.3s ease;
         }
-        
+
         /* テーマ色を紫に変更 */
         .nav-links a:hover {
             color: #800080;
         }
-        
+
         /* ヒーローセクション */
         .hero {
             height: 100vh;
@@ -84,20 +86,20 @@
             text-align: center;
             padding: 0 2rem;
         }
-        
+
         .hero h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
             animation: fadeIn 1.5s ease-in-out;
         }
-        
+
         .hero p {
             font-size: 1.5rem;
             max-width: 800px;
             margin-bottom: 2rem;
             animation: fadeIn 2s ease-in-out;
         }
-        
+
         /* ボタンの背景色を紫に変更 */
         .cta-button {
             display: inline-block;
@@ -110,32 +112,32 @@
             transition: background-color 0.3s ease;
             animation: fadeIn 2.5s ease-in-out;
         }
-        
+
         /* ホバー時は濃い紫 */
         .cta-button:hover {
             background-color: #660066;
         }
-        
+
         /* 3Dデモセクション */
         .demo-section {
             padding: 6rem 2rem;
             text-align: center;
             background-color: #fff;
         }
-        
+
         .section-title {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: #333;
         }
-        
+
         .section-subtitle {
             font-size: 1.2rem;
             color: #666;
             max-width: 800px;
             margin: 0 auto 3rem;
         }
-        
+
         #renderCanvas {
             width: 100%;
             height: 400px;
@@ -144,26 +146,47 @@
             touch-action: none;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
         }
-        
+
+        #magicEffectsCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            border-radius: 10px;
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
         /* 機能セクション */
         .features-section {
             padding: 6rem 2rem;
             background-color: #f8f9fa;
         }
-        
+
         .features-container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
-        
+
         .feature-card {
             background-color: #fff;
             padding: 2rem;
@@ -171,30 +194,30 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
         }
-        
+
         .feature-card:hover {
             transform: translateY(-10px);
         }
-        
+
         /* 機能タイトルの色も紫に変更 */
         .feature-card h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: #800080;
         }
-        
+
         /* プラットフォームセクション */
         .platforms-section {
             padding: 6rem 2rem;
             background-color: #fff;
             text-align: center;
         }
-        
+
         .platforms-container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .platforms-grid {
             display: flex;
             justify-content: center;
@@ -202,13 +225,13 @@
             gap: 3rem;
             margin-top: 3rem;
         }
-        
+
         .platform-card {
             width: 250px;
             padding: 2rem;
             text-align: center;
         }
-        
+
         .platform-logo {
             width: 120px;
             height: 120px;
@@ -219,25 +242,25 @@
             align-items: center;
             margin: 0 auto 1.5rem;
         }
-        
+
         /* ギャラリーセクション */
         .gallery-section {
             padding: 6rem 2rem;
             background-color: #f8f9fa;
         }
-        
+
         .gallery-container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-top: 3rem;
         }
-        
+
         .gallery-item {
             position: relative;
             overflow: hidden;
@@ -245,18 +268,18 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             aspect-ratio: 1;
         }
-        
+
         .gallery-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        
+
         .gallery-item:hover .gallery-img {
             transform: scale(1.1);
         }
-        
+
         /* ビデオセクション */
         .video-section {
             padding: 6rem 2rem;
@@ -264,12 +287,12 @@
             color: #fff;
             text-align: center;
         }
-        
+
         .video-container {
             max-width: 1000px;
             margin: 3rem auto 0;
         }
-        
+
         .video-placeholder {
             position: relative;
             width: 100%;
@@ -279,7 +302,7 @@
             border-radius: 10px;
             overflow: hidden;
         }
-        
+
         /* ビデオ再生ボタンの色も紫風に変更 */
         .video-play-button {
             position: absolute;
@@ -295,7 +318,7 @@
             align-items: center;
             cursor: pointer;
         }
-        
+
         .play-icon {
             width: 0;
             height: 0;
@@ -304,25 +327,25 @@
             border-left: 30px solid #fff;
             margin-left: 8px;
         }
-        
+
         /* チームセクション */
         .team-section {
             padding: 6rem 2rem;
             background-color: #fff;
         }
-        
+
         .team-container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
-        
+
         .team-card {
             background-color: #f8f9fa;
             border-radius: 10px;
@@ -330,49 +353,49 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
         }
-        
+
         .team-card:hover {
             transform: translateY(-10px);
         }
-        
+
         .team-img {
             width: 100%;
             height: 250px;
             object-fit: cover;
         }
-        
+
         .team-info {
             padding: 1.5rem;
         }
-        
+
         .team-info h3 {
             font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
-        
+
         /* チームメンバーの役職も紫に変更 */
         .team-role {
             color: #800080;
             font-size: 1rem;
             margin-bottom: 1rem;
         }
-        
+
         /* 開発経緯セクション */
         .journey-section {
             padding: 6rem 2rem;
             background-color: #f8f9fa;
         }
-        
+
         .journey-container {
             max-width: 800px;
             margin: 0 auto;
         }
-        
+
         .timeline {
             position: relative;
             margin-top: 4rem;
         }
-        
+
         /* タイムラインの線を紫に変更 */
         .timeline::before {
             content: '';
@@ -384,12 +407,12 @@
             height: 100%;
             background-color: #800080;
         }
-        
+
         .timeline-item {
             position: relative;
             margin-bottom: 4rem;
         }
-        
+
         .timeline-content {
             position: relative;
             width: calc(50% - 40px);
@@ -398,11 +421,11 @@
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
-        
+
         .timeline-item:nth-child(odd) .timeline-content {
             margin-left: auto;
         }
-        
+
         /* タイムラインの日付の背景色を紫に変更 */
         .timeline-date {
             position: absolute;
@@ -415,20 +438,20 @@
             line-height: 30px;
             border-radius: 5px;
         }
-        
+
         .timeline-item:nth-child(odd) .timeline-date {
             left: -120px;
         }
-        
+
         .timeline-item:nth-child(even) .timeline-date {
             right: -120px;
         }
-        
+
         .timeline-item h3 {
             margin-bottom: 1rem;
             color: #333;
         }
-        
+
         /* フッター */
         footer {
             background-color: #111;
@@ -436,36 +459,36 @@
             padding: 4rem 2rem;
             text-align: center;
         }
-        
+
         .footer-container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .footer-links {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             margin: 2rem 0;
         }
-        
+
         .footer-links a {
             color: #fff;
             margin: 0 1rem;
             text-decoration: none;
             transition: color 0.3s ease;
         }
-        
+
         .footer-links a:hover {
             color: #800080;
         }
-        
+
         .social-icons {
             display: flex;
             justify-content: center;
             margin-bottom: 2rem;
         }
-        
+
         .social-icon {
             width: 40px;
             height: 40px;
@@ -477,11 +500,11 @@
             margin: 0 0.5rem;
             transition: background-color 0.3s ease;
         }
-        
+
         .social-icon:hover {
             background-color: #800080;
         }
-        
+
         /* アニメーション */
         @keyframes fadeIn {
             from {
@@ -493,44 +516,44 @@
                 transform: translateY(0);
             }
         }
-        
+
         /* レスポンシブ対応 */
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
                 padding: 1rem;
             }
-            
+
             .logo {
                 margin-bottom: 1rem;
             }
-            
+
             .nav-links {
                 flex-direction: column;
                 text-align: center;
             }
-            
+
             .nav-links li {
                 margin: 0.5rem 0;
             }
-            
+
             .hero h1 {
                 font-size: 2.5rem;
             }
-            
+
             .hero p {
                 font-size: 1.2rem;
             }
-            
+
             .timeline::before {
                 left: 20px;
             }
-            
+
             .timeline-content {
                 width: calc(100% - 50px);
                 margin-left: 50px !important;
             }
-            
+
             .timeline-date {
                 width: 100px;
                 left: -110px !important;
@@ -555,7 +578,7 @@
             </ul>
         </div>
     </nav>
-    
+
     <!-- ヒーロー -->
     <section class="hero">
         <h1>MagicalClay</h1>
@@ -564,20 +587,23 @@
         <p>HandTracking技術を駆使した革新的な3Dモデリングアプリ。あなたの手がデジタルアートを生み出す。</p>
         <a href="#demo" class="cta-button">デモを体験する</a>
     </section>
-    
+
     <!-- 3Dデモ -->
     <section id="demo" class="demo-section">
-        <h2 class="section-title">インタラクティブデモ</h2>
+        <h2 class="section-title">3DCGを手で感じる</h2>
         <p class="section-subtitle">あなたの手の動きでデジタル粘土を自由に造形。革新的なHandTracking技術を体験してください。</p>
-        <canvas id="renderCanvas"></canvas>
+        <div class="canvas-container">
+            <canvas id="renderCanvas"></canvas>
+            <canvas id="magicEffectsCanvas"></canvas>
+        </div>
     </section>
-    
+
     <!-- 機能 -->
     <section id="features" class="features-section">
         <div class="features-container">
             <h2 class="section-title">主な機能</h2>
-            <p class="section-subtitle">MagicalClayがあれば、誰でも直感的に3Dモデリングを楽しめます。</p>
-            
+            <p class="section-subtitle">MagicalClayにより、誰でも直感的に3Dモデリングを楽しめます。</p>
+
             <div class="features-grid">
                 <div class="feature-card">
                     <h3>直感的なハンドトラッキング</h3>
@@ -606,13 +632,13 @@
             </div>
         </div>
     </section>
-    
+
     <!-- 対応プラットフォーム -->
     <section id="platforms" class="platforms-section">
         <div class="platforms-container">
             <h2 class="section-title">対応プラットフォーム</h2>
             <p class="section-subtitle">様々なXRデバイスで体験できます。</p>
-            
+
             <div class="platforms-grid">
                 <div class="platform-card">
                     <div class="platform-logo">
@@ -638,13 +664,13 @@
             </div>
         </div>
     </section>
-    
+
     <!-- ギャラリー -->
     <section id="gallery" class="gallery-section">
         <div class="gallery-container">
             <h2 class="section-title">作品ギャラリー</h2>
             <p class="section-subtitle">MagicalClayで作成された驚きの作品の数々をご覧ください。</p>
-            
+
             <div class="gallery-grid">
                 <div class="gallery-item">
                     <img src="/api/placeholder/500/500" alt="作品1" class="gallery-img">
@@ -667,12 +693,12 @@
             </div>
         </div>
     </section>
-    
+
     <!-- ビデオセクション -->
     <section class="video-section">
         <h2 class="section-title">MagicalClayを見る</h2>
         <p class="section-subtitle"></p>
-        
+
         <div class="video-container">
             <div class="video-placeholder">
                 <img src="/api/placeholder/1280/720" alt="ビデオサムネイル" width="100%" height="100%">
@@ -682,13 +708,13 @@
             </div>
         </div>
     </section>
-    
+
     <!-- チーム -->
     <section id="team" class="team-section">
         <div class="team-container">
             <h2 class="section-title">開発メンバー</h2>
             <p class="section-subtitle">MagicalClayを創り上げた情熱あるチーム。</p>
-            
+
             <div class="team-grid">
                 <div class="team-card">
                     <img src="/api/placeholder/400/400" alt="チームメンバー1" class="team-img">
@@ -725,13 +751,13 @@
             </div>
         </div>
     </section>
-    
+
     <!-- 開発経緯 -->
     <section id="journey" class="journey-section">
         <div class="journey-container">
             <h2 class="section-title">開発経緯</h2>
             <p class="section-subtitle">MagicalClayが誕生するまでの道のり。</p>
-            
+
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-content">
@@ -793,13 +819,13 @@
             </div>
         </div>
     </section>
-    
+
     <!-- フッター -->
     <footer>
         <div class="footer-container">
             <h3>MagicalClay</h3>
             <p>HandTrackingで創るあなただけの3Dアート</p>
-            
+
             <div class="social-icons">
                 <a href="#" class="social-icon">
                     <img src="/api/placeholder/20/20" alt="Twitter" width="20" height="20">
@@ -814,7 +840,7 @@
                     <img src="/api/placeholder/20/20" alt="Discord" width="20" height="20">
                 </a>
             </div>
-            
+
             <div class="footer-links">
                 <a href="#">ホーム</a>
                 <a href="#features">機能</a>
@@ -826,42 +852,209 @@
             </div>
         </div>
     </footer>
-    
+
     <!-- Babylon.js を利用した3Dデモの初期化スクリプト -->
     <script>
         window.addEventListener('DOMContentLoaded', function(){
             // キャンバスとエンジンの初期化
             var canvas = document.getElementById("renderCanvas");
             var engine = new BABYLON.Engine(canvas, true);
-            
+
             // シーン作成関数
             var createScene = function(){
                 var scene = new BABYLON.Scene(engine);
-                
+
                 // カメラ設定
                 var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene);
                 camera.attachControl(canvas, true);
-                
+
                 // 光源の設定
                 var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0), scene);
-                
+
                 // 簡単なオブジェクト（球体）の作成
                 var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 2}, scene);
-                
+
+                // 紫色のマテリアルを適用
+                var material = new BABYLON.StandardMaterial("sphereMaterial", scene);
+                material.diffuseColor = new BABYLON.Color3(0.5, 0, 0.5); // 紫色
+                material.specularColor = new BABYLON.Color3(1, 1, 1);
+                material.emissiveColor = new BABYLON.Color3(0.2, 0, 0.2); // 少し発光する紫
+                sphere.material = material;
+
                 return scene;
             };
-            
+
             var scene = createScene();
-            
+
             // レンダリングループ
             engine.runRenderLoop(function(){
                 scene.render();
             });
-            
+
             // ウィンドウリサイズ時の対応
             window.addEventListener("resize", function(){
                 engine.resize();
             });
+        });
+    </script>
+
+    <!-- Three.js を利用した魔法エフェクトの初期化スクリプト -->
+    <script>
+        window.addEventListener('DOMContentLoaded', function(){
+            // Three.jsのセットアップ
+            const magicCanvas = document.getElementById('magicEffectsCanvas');
+            const renderer = new THREE.WebGLRenderer({
+                canvas: magicCanvas,
+                alpha: true // 透明な背景
+            });
+
+            // キャンバスのサイズを親要素に合わせる
+            const canvasContainer = document.querySelector('.canvas-container');
+            renderer.setSize(canvasContainer.offsetWidth, canvasContainer.offsetHeight);
+
+            // シーンとカメラの作成
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, canvasContainer.offsetWidth / canvasContainer.offsetHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            // パーティクルの作成
+            const particleCount = 2000; // パーティクル数を増やす
+            const particles = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            // パーティクルの位置と色をランダムに設定
+            for (let i = 0; i < particleCount; i++) {
+                // 球体の周りにパーティクルを配置
+                const radius = 2 + Math.random() * 2; // 半径2〜4の範囲
+                const theta = Math.random() * Math.PI * 2; // 0〜2πのランダムな角度
+                const phi = Math.random() * Math.PI; // 0〜πのランダムな角度
+
+                // 球面座標から直交座標に変換
+                positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+                positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                positions[i * 3 + 2] = radius * Math.cos(phi);
+
+                // 魔法的な色（紫、ピンク、青のグラデーション）
+                if (Math.random() > 0.6) {
+                    // 紫色のパーティクル
+                    colors[i * 3] = 0.5 + Math.random() * 0.5; // 赤 (0.5-1.0)
+                    colors[i * 3 + 1] = 0; // 緑 (0)
+                    colors[i * 3 + 2] = 0.5 + Math.random() * 0.5; // 青 (0.5-1.0)
+                } else if (Math.random() > 0.3) {
+                    // 青色のパーティクル
+                    colors[i * 3] = 0; // 赤 (0)
+                    colors[i * 3 + 1] = 0.2 + Math.random() * 0.3; // 緑 (0.2-0.5)
+                    colors[i * 3 + 2] = 0.7 + Math.random() * 0.3; // 青 (0.7-1.0)
+                } else {
+                    // ピンク色のパーティクル
+                    colors[i * 3] = 0.7 + Math.random() * 0.3; // 赤 (0.7-1.0)
+                    colors[i * 3 + 1] = 0.2 + Math.random() * 0.2; // 緑 (0.2-0.4)
+                    colors[i * 3 + 2] = 0.5 + Math.random() * 0.5; // 青 (0.5-1.0)
+                }
+            }
+
+            particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            // パーティクルサイズの配列を作成
+            const sizes = new Float32Array(particleCount);
+            for (let i = 0; i < particleCount; i++) {
+                sizes[i] = Math.random() * 0.1 + 0.03; // 0.03〜0.13の範囲でサイズをランダムに
+            }
+            particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+            // パーティクルマテリアル
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 0.1,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                sizeAttenuation: true
+            });
+
+            // パーティクルシステムの作成
+            const particleSystem = new THREE.Points(particles, particleMaterial);
+            scene.add(particleSystem);
+
+            // アニメーションの状態を保持する配列
+            const particleVelocities = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount * 3; i++) {
+                particleVelocities[i] = (Math.random() - 0.5) * 0.01;
+            }
+
+            // 時間を追跡するための変数
+            let time = 0;
+
+            // アニメーションループ
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.01;
+
+                // パーティクルを動かす
+                const positions = particles.attributes.position.array;
+                const sizes = particles.attributes.size.array;
+
+                for (let i = 0; i < particleCount; i++) {
+                    // パーティクルの位置を更新
+                    positions[i * 3] += particleVelocities[i * 3];
+                    positions[i * 3 + 1] += particleVelocities[i * 3 + 1];
+                    positions[i * 3 + 2] += particleVelocities[i * 3 + 2];
+
+                    // 中心からの距離を計算
+                    const x = positions[i * 3];
+                    const y = positions[i * 3 + 1];
+                    const z = positions[i * 3 + 2];
+                    const distance = Math.sqrt(x*x + y*y + z*z);
+
+                    // 一定の距離を超えたら中心方向に引き戻す力を加える
+                    if (distance > 4) {
+                        particleVelocities[i * 3] -= x * 0.001;
+                        particleVelocities[i * 3 + 1] -= y * 0.001;
+                        particleVelocities[i * 3 + 2] -= z * 0.001;
+                    }
+
+                    // 渦巻き効果を追加
+                    const swirl = 0.003;
+                    particleVelocities[i * 3] += -y * swirl;
+                    particleVelocities[i * 3 + 1] += x * swirl;
+
+                    // 速度に減衰を適用
+                    particleVelocities[i * 3] *= 0.99;
+                    particleVelocities[i * 3 + 1] *= 0.99;
+                    particleVelocities[i * 3 + 2] *= 0.99;
+
+                    // パーティクルサイズを時間とともに脈動させる
+                    const baseSize = sizes[i];
+                    const pulseFactor = Math.sin(time * 3 + i * 0.1) * 0.2 + 1;
+                    sizes[i] = baseSize * pulseFactor;
+                }
+
+                // 時間経過で全体を回転
+                particleSystem.rotation.y += 0.002;
+                particleSystem.rotation.x += 0.001;
+
+                particles.attributes.position.needsUpdate = true;
+                particles.attributes.size.needsUpdate = true;
+
+                renderer.render(scene, camera);
+            }
+
+            // ウィンドウリサイズ時の対応
+            window.addEventListener('resize', function() {
+                const width = canvasContainer.offsetWidth;
+                const height = canvasContainer.offsetHeight;
+
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(width, height);
+            });
+
+            // アニメーション開始
+            animate();
         });
     </script>
 </body>
